@@ -23,6 +23,7 @@ public class MailService {
                         "Entreprise: " + mailRequest.getCompanyName() + "\n" +
                         "Message:\n" + mailRequest.getMessage()
         );
+        message.setReplyTo(mailRequest.getEmail());
         mailSender.send(message);
         return mailRequest;
     }

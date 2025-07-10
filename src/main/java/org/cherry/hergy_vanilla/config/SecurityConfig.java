@@ -12,8 +12,8 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/contact/**").permitAll() // Autorise la route API Contact sans auth
-                        .anyRequest().authenticated() // Les autres routes nécessitent une auth (si tu en as)
+                        .requestMatchers("/api/contact/**").permitAll()
+                        .anyRequest().authenticated()
                 )
                 .csrf(csrf -> csrf.disable());
         return http.build();
