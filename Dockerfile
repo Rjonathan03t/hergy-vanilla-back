@@ -1,14 +1,12 @@
-# Utilise une image Java officielle
-FROM eclipse-temurin:21-jdk
-
-# Crée un dossier dans le conteneur
+# Étape 1 : Build Maven
+FROM maven:3.9.3-eclipse-temurin-21 AS build
 WORKDIR /app
+COPY . .
+RUN mvn clean package -DskipTests
 
-# Copie le fichier jar généré (remplace par ton vrai jar)
-COPY target/hergy-vanilla-0.0.1-SNAPSHOT.jar app.jar
-
-# Expose le port 8080 (ou ce que ton app utilise)
+# Étape 2 : Image finale minimaliste
+FROM eclipse-temurin:21-jdk
+WORKDIR /app
+COPY --from=build /app/target/hergy-vanilla-0.0.1-SNAPSHOT.jar app.jar
 EXPOSE 8080
-
-# Démarre l'app
 CMD ["java", "-jar", "app.jar"]
